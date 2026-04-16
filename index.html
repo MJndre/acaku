@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Untukmu, Sayang ❤️</title>
+  <title>Untukmu, Sengku 🩷</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link
@@ -310,6 +310,314 @@
       font-size: 13px;
       color: #6b7a66;
       font-weight: 500;
+    }
+
+    /* ===== 3D REVOLVING RING BOX ===== */
+    .ring-box-wrapper {
+      perspective: 1500px;
+      width: 220px;
+      height: 250px;
+      margin: 0 auto;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+
+    .ring-box-wrapper:hover {
+      transform: scale(1.05);
+    }
+
+    .ring-box {
+      width: 0;
+      height: 0;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(-15deg) rotateY(-35deg);
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ring-box-wrapper:hover .ring-box,
+    .ring-box-wrapper.open .ring-box {
+      transform: rotateX(-10deg) rotateY(15deg);
+    }
+
+    .cube {
+      position: absolute;
+      transform-style: preserve-3d;
+    }
+
+    .face {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+
+    /* Solid Base - Bottom Half */
+    .solid-base .face {
+      background: #ff8eaf;
+      /* Pink box */
+      border: 1px solid rgba(255, 142, 175, 0.7);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px);
+    }
+
+    .solid-base .front {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(0deg) translateZ(60px);
+    }
+
+    .solid-base .back {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(180deg) translateZ(60px);
+    }
+
+    .solid-base .right {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(90deg) translateZ(60px);
+    }
+
+    .solid-base .left {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(-90deg) translateZ(60px);
+    }
+
+    .solid-base .bottom {
+      width: 120px;
+      height: 120px;
+      margin: -60px 0 0 -60px;
+      transform: rotateX(-90deg) translateZ(30px);
+      background: #d6658a;
+    }
+
+    .solid-base .inner-edge {
+      width: 114px;
+      height: 114px;
+      margin: -57px 0 0 -57px;
+      transform: rotateX(90deg) translateZ(31px);
+      background: none;
+      border: 4px solid #d4af37;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8), 0 0 5px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Acrylic Lid - Top Half */
+    .acrylic-lid {
+      transform: translateY(-60px);
+    }
+
+    .acrylic-lid .face {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3), 0 0 5px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .acrylic-lid .front {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(0deg) translateZ(60px);
+    }
+
+    .acrylic-lid .back {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(180deg) translateZ(60px);
+    }
+
+    .acrylic-lid .right {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(90deg) translateZ(60px);
+    }
+
+    .acrylic-lid .left {
+      width: 120px;
+      height: 60px;
+      margin: -30px 0 0 -60px;
+      transform: rotateY(-90deg) translateZ(60px);
+    }
+
+    .acrylic-lid .top {
+      width: 120px;
+      height: 120px;
+      margin: -60px 0 0 -60px;
+      transform: rotateX(90deg) translateZ(30px);
+    }
+
+    /* Pivot Core mechanism */
+    .pivot-core {
+      position: absolute;
+      top: -30px;
+      width: 104px;
+      height: 104px;
+      margin: -52px 0 0 -52px;
+      transform-style: preserve-3d;
+      transform: rotateX(90deg);
+      transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .ring-box-wrapper:hover .pivot-core,
+    .ring-box-wrapper.open .pivot-core {
+      transform: rotateX(270deg);
+    }
+
+    .pivot-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: #ffb6c1;
+      /* Pink Velvet inner floor */
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .rose-side {
+      transform: rotateX(0deg) translateZ(2px);
+    }
+
+    .ring-side {
+      transform: rotateX(180deg) translateZ(2px);
+    }
+
+    /* 3D Paper Rose */
+    .rose {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      transform-style: preserve-3d;
+      transform: rotateX(0deg) translateZ(5px);
+    }
+
+    .petal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      /* Memposisikan sudut kanan bawah kelopak tepat di tengah .rose */
+      margin: -40px 0 0 -40px;
+      background: linear-gradient(135deg, #ff4d4d, #b30000);
+      border-radius: 50% 50% 0 50%;
+      /* Bentuk klasik kelopak bunga */
+      box-shadow: inset -2px -2px 10px rgba(0, 0, 0, 0.4), 0 0 2px rgba(255, 255, 255, 0.3);
+      transform-origin: 100% 100%;
+      /* Sumbu putar di sudut kanan bawah */
+      transform-style: preserve-3d;
+    }
+
+    .petal.inner {
+      width: 25px;
+      height: 25px;
+      margin: -25px 0 0 -25px;
+      background: linear-gradient(135deg, #ff6666, #ff1a1a);
+    }
+
+    /* Outer ring: 6 petals tilted 45 degrees up */
+    .petal-1 {
+      transform: rotateZ(0deg) rotateX(45deg);
+    }
+
+    .petal-2 {
+      transform: rotateZ(60deg) rotateX(45deg);
+    }
+
+    .petal-3 {
+      transform: rotateZ(120deg) rotateX(45deg);
+    }
+
+    .petal-4 {
+      transform: rotateZ(180deg) rotateX(45deg);
+    }
+
+    .petal-5 {
+      transform: rotateZ(240deg) rotateX(45deg);
+    }
+
+    .petal-6 {
+      transform: rotateZ(300deg) rotateX(45deg);
+    }
+
+    /* Inner ring: 4 petals tilted 65 degrees up (much steeper, forming the bud) */
+    .petal-7 {
+      transform: rotateZ(45deg) rotateX(65deg) translateZ(2px);
+    }
+
+    .petal-8 {
+      transform: rotateZ(135deg) rotateX(65deg) translateZ(2px);
+    }
+
+    .petal-9 {
+      transform: rotateZ(225deg) rotateX(65deg) translateZ(2px);
+    }
+
+    .petal-10 {
+      transform: rotateZ(315deg) rotateX(65deg) translateZ(2px);
+    }
+
+    .petal-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      margin: -8px 0 0 -8px;
+      background: radial-gradient(circle, #ff6666, #990000);
+      border-radius: 50%;
+      transform: translateZ(12px) scale3d(1, 1, 2);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    /* 3D Ring Layers */
+    .ring-item {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      transform: translateZ(15px) rotateX(-75deg);
+      transform-style: preserve-3d;
+    }
+
+    .ring-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 4px solid #FFD700;
+      border-radius: 50%;
+      box-shadow: inset 0 0 2px rgba(255, 215, 0, 0.5), 0 0 2px rgba(255, 215, 0, 0.5);
+    }
+
+    .ring-side .gem {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      margin-left: -9px;
+      width: 18px;
+      height: 18px;
+      background: radial-gradient(circle at 30% 30%, #fff, #cdeeb5, #87c34b);
+      border-radius: 4px 4px 10px 10px;
+      transform: translateZ(5px) rotateZ(45deg);
+      box-shadow: 0 0 20px rgba(205, 238, 181, 0.9), 0 0 10px rgba(255, 255, 255, 1);
+      border: 1px solid rgba(255, 255, 255, 0.8);
     }
 
     #proposalContent {
@@ -769,14 +1077,14 @@
 
   <div id="loginOverlay" class="login-overlay">
     <div class="glass-card login-card">
-      <div class="logo-heart">🤍</div>
-      <h3 style="margin-bottom:8px; font-weight:700; color:var(--accent-contrast)">Halo, sayang</h3>
+      <div class="logo-heart">🩷</div>
+      <h3 style="margin-bottom:8px; font-weight:700; color:var(--accent-contrast)">Halo, Sengkuu</h3>
       <p class="muted-small">Masukin sesuatu yang paling kita suka — jangan lupa ya :)</p>
 
       <div class="mt-4">
         <div class="input-group mb-3">
           <span class="input-group-text border-0 ps-3">🔒</span>
-          <input id="passwordInput" type="password" class="form-control" placeholder="Masukkan panggilan kesayangan">
+          <input id="passwordInput" type="password" class="form-control" placeholder="Masukkan sesuatu yang kita suka">
         </div>
         <div>
           <button id="loginBtn" class="btn btn-primary w-100 py-2 fs-5">Masuk</button>
@@ -797,10 +1105,11 @@
       <a class="navbar-brand d-flex align-items-center gap-3" href="#">
         <div
           style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#cdeeb5,#9fc76b);display:grid;place-items:center;font-family:'Dancing Script';color:var(--accent-contrast);font-size: 22px;box-shadow: 0 4px 10px rgba(180,220,135,0.4);">
-          M</div>
+          🩷</div>
         <div>
-          <div style="font-weight:700;color:var(--accent-contrast); line-height: 1.2;">Untukmu Caca</div>
-          <small style="font-size:12px;color:var(--muted); font-weight: 400;">Sebuah pesan dari hatiku</small>
+          <div style="font-weight:700;color:var(--accent-contrast); line-height: 1.2;">Untukmu Sengkuu</div>
+          <small style="font-size:12px;color:var(--muted); font-weight: 400;">In Everything U Are, Im Always 1000x
+            Loving you my love 🩷💚</small>
         </div>
       </a>
       <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
@@ -934,8 +1243,8 @@
               <img id="avatar-2" src="foto/aca2.png" alt="Foto Dia" class="profile-avatar" />
               <div style="flex:1;">
                 <h5 class="profile-name" id="name-2">Tasya Nurmaliya</h5>
-                <p class="profile-desc" id="desc-2">Orang yang suka Matcha tapi kenapa jadi suka sama Andre MJ — Matcha
-                  • Senyum menenangkan • Si Ngambek</p>
+                <p class="profile-desc" id="desc-2">Orang yang suka Matcha tapi kenapa jadi suka sama Andre MJ — Matcha 🩷
+                  •Senyum menenangkan •Si Ngambek</p>
                 <div class="profile-meta" id="meta-2">Manusia berharga untuk Andre MJ 💖</div>
               </div>
             </div>
@@ -1029,9 +1338,12 @@
               Aku punya pesan rahasia, tapi kamu harus berani membukanya.
             </p>
 
-            <div class="mt-5" id="openProposalBtnContainer">
-              <button class="btn btn-lg btn-primary shadow-lg" id="openProposalBtn"
-                style="min-width:280px; padding:14px 0; font-size: 18px;">Buka Pesan Hatiku 💌</button>
+            <div class="mt-5" id="openProposalBtnContainer"
+              style="display:flex; flex-direction:column; align-items:center;">
+              <button id="openProposalBtn" class="btn btn-success btn-lg px-5 py-3 shadow-lg fw-bold rounded-pill"
+                style="font-size:18px;">
+                Buka Pesan Hatiku 💌
+              </button>
             </div>
 
             <!-- Quiz Container -->
@@ -1080,13 +1392,35 @@
                   <br><br>
                   <strong style="color:#2e5b2a; font-size:18px;">Jadiiii sayangggg Maukah kau menjadi satu-satunya yang
                     kusayang — bukan hanya hari ini, tapi selalu dan selamanyaaa?? mau kannn? 🤍🤍🤍</strong>
+                  <br><br>
+
+                  Setelah official menjadi pacar, aku dan kamu menjalaninya dengan sangat indahh, yaa walaupun terkadang
+                  pasti ada masalah yang menghadapi kita akan tetapi itu tidak menjadi halangan untuk kita, kita tetap
+                  bersama sama, canda dan tawa bersama, sedih dan duka bersama, kemana mana bersama, aku sayang banget
+                  sama Tasya Nurmaliya, kalo bisa dibilang dia itu orang yang paling sempurna yang datang dan menjadi
+                  bagian dari hidupku sekarang, tapi sekarang ternyata kamu merasa hubungan ini terasa hambar yahh??
+                  tolongg sengkuu jangan sampe hubungan kita berhentii, tolonggg kita lanjuti dan perbaiki bersama sama
+                  hubungan kita yang hambar ini, aku gamau kalo ada perubahan yang terjadi di antara aku dan kamuu, aku
+                  ingin kita kembalii seperti sedia kalaaa setelah kita ketemu dan pacaran, mungkin bisa menjadi lebih
+                  bucinnnn lagiii hubungann kita iniii, aku inginnn sekaliii hubungan kitaaa berjalannn dengan
+                  romantisss sampai sampai orang orang yang melihatnya terharu melihat ke romantisan kita inii
+                  <br><br>
+
+                  Ya Allah yang maha agung lagi maha penyagang, tolongg
+                  bantu kami dalam memperbaiki hubungan kami yang hambar ini Ya Allahh, bahkan lebih dari yang
+                  sebelumnyaa Ya Allah
+                  <br><br>
+
+                  <strong style="color:#2e5b2a; font-size:18px;"> In Everything U Are, Im Always 1000x Loving you my
+                    love 🩷</strong>
+                  <br><br>
                 </p>
               </div>
 
               <div class="mt-5 d-flex gap-3 justify-content-center flex-wrap">
-                <button class="btn btn-success btn-lg px-5 py-3 shadow-lg" id="acceptBtn" style="font-size:18px;">Ayoo
-                  sayangg 💍</button>
-                <button class="btn btn-outline-primary btn-lg px-4" id="maybeBtn">Beri aku waktu 🙏</button>
+                <button class="btn btn-success btn-lg px-5 py-3 shadow-lg" id="acceptBtn" style="font-size:18px;">Ayo
+                  kita perbaiki sayang 💍</button>
+                <button class="btn btn-outline-primary btn-lg px-4" id="maybeBtn">Sengku... 🙏</button>
               </div>
 
               <div class="mt-4 text-center">
@@ -1111,7 +1445,7 @@
         <div class="col-6 col-md-3" data-tilt data-tilt-scale="1.08" data-tilt-max="15">
           <div class="polaroid-wrap" style="transform: rotate(-4deg);">
             <img class="img-thumb" src="foto/hal1.png" alt="Kenangan 1">
-            <div class="polaroid-text">Cantiknya ✨</div>
+            <div class="polaroid-text">Pacarmu ✨</div>
           </div>
         </div>
         <div class="col-6 col-md-3" data-tilt data-tilt-scale="1.08" data-tilt-max="15">
@@ -1129,7 +1463,7 @@
         <div class="col-6 col-md-3" data-tilt data-tilt-scale="1.08" data-tilt-max="15">
           <div class="polaroid-wrap" style="transform: rotate(4deg);">
             <img class="img-thumb" src="foto/hal4.png" alt="Kenangan 4">
-            <div class="polaroid-text">Forever 🤍</div>
+            <div class="polaroid-text">Sayangku forever 🤍</div>
           </div>
         </div>
       </div>
@@ -1178,6 +1512,10 @@
 
             <div class="mt-4 text-center">
               <small style="color: #6b7a66; font-weight: 500;">Semoga semua impian kita tercapai ya sayang... 🤍</small>
+              <br><br>
+              <small style="color: #6b7a66; font-weight: 500;">Tambahin lagii wishlist kitaa, langsung bilang aja ke
+                pacarmu
+                ini yaa 🤍</small>
             </div>
 
           </div>
@@ -1458,11 +1796,8 @@
     <script>
       const playlist = [
         { title: "everything u are", artist: "Hindia", src: "musik/everything u are - Hindia.mp3", cover: "foto/everyth.jpg" },
-        { title: "Jiwa Yang Bersedih", artist: "Ghea Indrawari", src: "musik/Jiwa Yang Bersedih - Ghea Indrawari.mp3", cover: "foto/jiwayangb.jpg" },
-        { title: "Malaikat", artist: "Ghea Indrawari", src: "musik/Malaikat - Ghea Indrawari.mp3", cover: "foto/malaikatku.jpg" },
-        { title: "Monolog", artist: "Pamungkas", src: "musik/Monolog - Pamungkas.mp3", cover: "foto/monologg.jpg" },
-        { title: "Tarot", artist: ".Feast", src: "musik/Tarot - .Feast.mp3", cover: "foto/tarottw.jpg" },
-        { title: "Terima Kasih Sudah Bertahan", artist: "Ghea Indrawari", src: "musik/Terima Kasih Sudah Bertahan - Ghea Indrawari.mp3", cover: "foto/terimakasihku.jpg" }
+        { title: "1000x", artist: "Ghea Indrawari", src: "musik/1000x - Ghea Indrawari.mp3", cover: "foto/1000xghea.jpg" },
+        { title: "Monolog", artist: "Pamungkas", src: "musik/Monolog - Pamungkas.mp3", cover: "foto/monologg.jpg" }
       ];
 
       const player = document.getElementById('player');
@@ -1728,6 +2063,112 @@
     </div>
   </footer>
 
+  <!-- Modal Apology -->
+  <div class="modal fade" id="apologyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 800px;">
+      <div class="modal-content border-0"
+        style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; box-shadow: 0 15px 35px rgba(46, 91, 42, 0.2);">
+        <div class="modal-body p-5 text-start">
+          <h3 class="dancing mb-3 text-center" style="color:var(--accent-contrast); font-size:42px;">Sengkuu.....</h3>
+          <p style="font-size:16px; color:#4a6345; line-height: 1.6; font-weight: 500;">
+            Hai sayang, sebelum kamu masuk ke main page dari website kita, aku pingin ngomong dari lubuk hatiku yang
+            terdalam... Maafin aku yaaa kalau di waktu-waktu yang lalu terutama di lebaran itu diriku telah
+            mengecewakanmu.<br><br>
+            Aku menyesal karena sudah melakukan hal itu, dan jujur aku gamau kamu menjadi seperti ini... kamu ngomong
+            sendiri kann bahwasanya kamu itu merasa hambar dengan hubungan kita... <br><br>
+            Seperti yang kamu bilang juga bahwa kamu itu berubah dan seharusnya aku menyadarinya, dan jika aku mengingat
+            ingat ternyata benar juga kalo kamu itu ada yang berubah dan banyak hal yang menghilang dari perhatianmu
+            terhadapku, aku jujur setelah menyadari hal itu apalagi di baru baru ini kamu makin memperlihatkan bahwa
+            kamu itu berubah, seperti kamu yang menjawab chat aku lebih lama... kamu yang lebih terlihat sangat kesall
+            sama akuuu itu jujur kelihatan banget dan aku merasa bersalahh telah membuatmu menjadi seperti inii
+            sengkuu... emang itu bayaran yang kamu berikan kepadaku, aku mungkin bilang gasuka kamu sifatnya kayak
+            gituuu tapi aku cuma bisa tetap berusahaa membuatmu percaya sama akuu dan membuatmu melihat kembali
+            usahakuuu demi hubungann aku dan kamuu sengkuu<br><br>
+            kalo bolehhh, aku mauu bangettt kita kembali lagi seperti sedia kala dan justru makin bucin antara satu sama
+            lainn, tolong jangan berenti untuk membuatku menjadi prioritas dalam hidupmuuu setelah keluargamuu, tolong
+            jangan berenti minta tolongg sama akuuuu, tolong jangan minta berenntiii dijajaninnn sama akuuu, tolongg
+            jangan slowrespon lagiii ke akuuuu aku sedih bangett sayanggggg. <br><br>
+            Aku gamau perasaan atau cinta yang kita jalani ini terasa hambar. ayooo kita melanjutkannya lagi dan
+            memperbaikinyaa bareng barengg yaa?? <br><br>
+            in everything u are, im always 1000x loving youuu my loveee🥺🤍 (di everything u are, aku akann selaluu
+            1000x menyayangimuu sengkuuuuu) 🥺🤍
+          </p>
+
+          <div class="mt-4 mb-4" style="display:flex; flex-direction:column; align-items:center;">
+            <div class="ring-box-wrapper" tabindex="0" role="button" aria-label="Kotak Cincin"
+              onclick="this.classList.toggle('open')">
+              <div class="ring-box">
+                <!-- Acrylic Clear Lid -->
+                <div class="cube acrylic-lid">
+                  <div class="face front"></div>
+                  <div class="face back"></div>
+                  <div class="face right"></div>
+                  <div class="face left"></div>
+                  <div class="face top"></div>
+                </div>
+                <!-- Solid Base -->
+                <div class="cube solid-base">
+                  <div class="face front"></div>
+                  <div class="face back"></div>
+                  <div class="face right"></div>
+                  <div class="face left"></div>
+                  <div class="face bottom"></div>
+                  <div class="face top inner-edge"></div>
+                </div>
+                <!-- The Pivot Mechanism -->
+                <div class="pivot-core cube">
+                  <!-- Front = Rose Side -->
+                  <div class="pivot-face rose-side">
+                    <div class="rose">
+                      <!-- Outer layer -->
+                      <div class="petal petal-1"></div>
+                      <div class="petal petal-2"></div>
+                      <div class="petal petal-3"></div>
+                      <div class="petal petal-4"></div>
+                      <div class="petal petal-5"></div>
+                      <div class="petal petal-6"></div>
+                      <!-- Inner layer -->
+                      <div class="petal inner petal-7"></div>
+                      <div class="petal inner petal-8"></div>
+                      <div class="petal inner petal-9"></div>
+                      <div class="petal inner petal-10"></div>
+                      <!-- Core -->
+                      <div class="petal-center"></div>
+                    </div>
+                  </div>
+                  <!-- Back = Ring Side -->
+                  <div class="pivot-face ring-side">
+                    <div class="ring-item">
+                      <div class="ring-layer" style="transform: translateZ(0px)"></div>
+                      <div class="ring-layer" style="transform: translateZ(1px)"></div>
+                      <div class="ring-layer" style="transform: translateZ(2px)"></div>
+                      <div class="ring-layer" style="transform: translateZ(3px)"></div>
+                      <div class="ring-layer" style="transform: translateZ(4px)"></div>
+                      <div class="ring-layer" style="transform: translateZ(5px)"></div>
+                      <div class="gem"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 fw-bold dancing"
+              style="font-size:26px; color:#5f8d27; text-shadow:0 2px 4px rgba(255,255,255,0.7);">
+              Ini Promise Ring khusus untuk kamu... semoga kita bisa kembali memprioritaskan satu sama lain lagi dan
+              kembali sama sama bucin akut lagi hehe dan bahkan lebihh dari yang
+              sebelumnya yaa sengkuu💌
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button id="closeApologyBtn" class="btn btn-success px-4 py-2 rounded-pill fw-bold"
+              style="font-size:17px; box-shadow: 0 8px 20px rgba(135,195,75,0.4);">Iya sayang, ayo kita perbaiki bareng
+              bareng 💚</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true" style="backdrop-filter: blur(8px);">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
@@ -1794,7 +2235,17 @@
         overlay.style.opacity = '0';
         overlay.style.visibility = 'hidden';
         overlay.style.filter = 'blur(10px)';
-        setTimeout(celebrate, 200);
+
+        setTimeout(() => {
+          const apologyModal = new bootstrap.Modal(document.getElementById('apologyModal'), { backdrop: 'static', keyboard: false });
+          apologyModal.show();
+
+          document.getElementById('closeApologyBtn').addEventListener('click', () => {
+            apologyModal.hide();
+            setTimeout(celebrate, 400); // Trigger celebration after modal closes
+          }, { once: true });
+        }, 600); // slight delay after login overlay fades out
+
       } else {
         showMessage('Hmm, belum tepat — coba ingat lagi minuman hijau kesukaanmu 🥺');
         document.querySelector('.login-card').animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-12px)' }, { transform: 'translateX(12px)' }, { transform: 'translateX(0)' }], { duration: 450 });
