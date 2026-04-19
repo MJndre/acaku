@@ -1199,6 +1199,8 @@
                   🎟️</a></li>
               <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="#wishlist" style="color:#5f8d27;">Wishlist
                   Kita</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="#kapsul-waktu" style="color:#5f8d27;">Kapsul
+                  Waktu ⏳</a></li>
               <li><a class="dropdown-item rounded-3 py-2" href="#musik">Musik</a></li>
               <li><a class="dropdown-item rounded-3 py-2" href="#balasan">Balasan Caca</a></li>
               <li><a class="dropdown-item rounded-3 py-2" href="#pelukan">Pelukan</a></li>
@@ -1638,6 +1640,7 @@
     </div>
   </section>
 
+
   <!-- ====== KEJUTAN SECTION (PUZZLE & SCRATCH) ====== -->
   <section id="kejutan" class="py-5">
     <div class="container">
@@ -1743,6 +1746,27 @@
                 ini yaa 🤍</small>
             </div>
 
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== KAPSUL WAKTU SECTION ====== -->
+  <section id="kapsul-waktu" class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8" data-tilt data-tilt-max="2" data-tilt-glare data-tilt-max-glare="0.05">
+          <div class="glass-card p-4 p-md-5 text-center" style="border-radius: 24px; border: 4px solid #b4dc87;">
+            <h3 class="dancing mb-3" style="font-size: 42px; color:var(--accent-contrast);">Kapsul Waktu ⏳</h3>
+            <p class="mb-4" style="font-size:16px; color:#3a4f35; font-weight: 500;">
+              Sebuah surat panjang yang pernah aku berikan padamu (beserta Promise Ring kita).<br>Sengaja kusimpan di
+              sini agar kita selalu mengingat dan merawat hubungan ini.
+            </p>
+            <button class="btn btn-outline-success border-2 rounded-pill px-5 py-2 mt-2 fw-bold shadow-sm"
+              style="font-size: 16px; background: white;" data-bs-toggle="modal" data-bs-target="#apologyModal">
+              Buka Kapsul Waktu 💌
+            </button>
           </div>
         </div>
       </div>
@@ -2002,7 +2026,7 @@
               <div class="vol-wrap">
                 <button id="muteBtn" class="border-0 bg-transparent p-0 m-0" style="font-size:16px;"
                   title="Mute">🔊</button>
-                <input id="volume" type="range" min="0" max="100" value="80" aria-label="volume">
+                <input id="volume" type="range" min="0" max="100" value="30" aria-label="volume">
               </div>
             </div>
 
@@ -2023,7 +2047,7 @@
         { title: "everything u are", artist: "Hindia", src: "musik/everything u are - Hindia.mp3", cover: "foto/everyth.jpg" },
         { title: "1000x", artist: "Ghea Indrawari", src: "musik/1000x - Ghea Indrawari.mp3", cover: "foto/1000xghea.jpg" },
         { title: "Monolog", artist: "Pamungkas", src: "musik/Monolog - Pamungkas.mp3", cover: "foto/monologg.jpg" },
-        { title: "Bucketlist", artist: "Ghea Indrawari", src: "musik/Bucketlist - Ghea Indrawari.mp3", cover: "foto/bucketlistghea.jpg" }
+        { title: "Bucketlist", artist: "Ghea Indrawari", src: "musik/Bucketlist -Ghea Indrawari.mp3", cover: "foto/bucketlistghea.jpg" }
       ];
 
       const player = document.getElementById('player');
@@ -2212,45 +2236,139 @@
       }
 
       renderPlaylist();
-      if (playlist.length) loadTrack(0);
+      if (playlist.length) {
+        loadTrack(0);
+
+        let hasAutoplayed = false;
+        const attemptAutoplay = () => {
+          if (hasAutoplayed) return;
+          player.play().then(() => {
+            isPlaying = true;
+            playPauseBtn.textContent = '⏸';
+            hasAutoplayed = true;
+            document.removeEventListener('click', attemptAutoplay);
+            document.removeEventListener('scroll', attemptAutoplay, { passive: true });
+            document.removeEventListener('touchstart', attemptAutoplay, { passive: true });
+          }).catch(err => {
+            console.warn("Autoplay ditunda oleh browser hingga interaksi pertama pengguna.");
+          });
+        };
+
+        // Coba jalankan secara otomatis 
+        attemptAutoplay();
+        // Jika terblokir, lagu akan langsung mengalun seketika Caca menyentuh/scroll layar
+        document.addEventListener('click', attemptAutoplay);
+        document.addEventListener('scroll', attemptAutoplay, { passive: true });
+        document.addEventListener('touchstart', attemptAutoplay, { passive: true });
+      }
       volumeEl.value = Math.round(player.volume * 100);
       updateMuteIcon();
     </script>
   </section>
 
-  <!-- SECTION BARU: Balasan dari Caca -->
+  <!-- SECTION BARU: Live Chat -->
+  <style>
+    /* Chat bubbles CSS */
+    .chat-bubble {
+      max-width: 78%;
+      padding: 10px 16px;
+      border-radius: 18px;
+      font-size: 15px;
+      position: relative;
+      word-wrap: break-word;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .msg-mine {
+      align-self: flex-end;
+      background: #d4f5b5;
+      color: #2e5b2a;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-theirs {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #333333;
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(180, 220, 135, 0.3);
+    }
+
+    .msg-meta {
+      font-size: 10px;
+      color: rgba(0, 0, 0, 0.4);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .msg-sender {
+      font-size: 11px;
+      font-weight: 700;
+      color: #78b031;
+      margin-bottom: 2px;
+      display: block;
+    }
+  </style>
+
   <section id="balasan" class="py-5" style="position: relative;">
     <div class="container">
       <h3 class="text-center dancing mb-5"
         style="color:var(--accent-contrast); font-size:54px; text-shadow: 0 4px 10px rgba(255,255,255,0.8);">
-        Tulis Balasan untuk Andre 💌
+        Kirim Chat (Live) 💬
       </h3>
-      <div class="glass-card p-4 p-md-5 mx-auto" style="max-width: 800px;" data-tilt data-tilt-max="2" data-tilt-glare
-        data-tilt-max-glare="0.05">
-        <textarea id="loveLetter" class="form-control mb-4" rows="8"
-          placeholder="Sebuah pesan rindu... Andre sayang, aku mau bilang bahwa..."
-          style="font-size:17px; resize:none; border-radius:16px; background: rgba(255,255,255,0.7); box-shadow: inset 0 4px 10px rgba(0,0,0,0.03);"></textarea>
 
-        <div class="text-center">
-          <button id="saveLetter" class="btn btn-success btn-lg px-5 shadow-lg py-3 fw-bold rounded-pill">
-            Simpan di Hati Andre Selamanya 💚
-          </button>
+      <div class="glass-card p-0 mx-auto overflow-hidden position-relative"
+        style="max-width: 600px; border-radius: 20px; display: flex; flex-direction: column; height: 500px; padding: 0 !important; background: rgba(255,255,255,0.85); box-shadow: 0 15px 35px rgba(46, 91, 42, 0.15);">
+
+        <!-- Identitas Chooser Overlay dipindahkan ke bawah -->
+        <div class="p-3 shadow-sm d-flex align-items-center gap-3"
+          style="background: rgba(255,255,255,0.6); z-index: 2; border-bottom: 1px solid rgba(180,220,135,0.3);">
+          <div
+            style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, #a6d374, #87c34b); display:grid; place-items:center; color:white; font-size:18px;">
+            🩷</div>
+          <div style="flex:1;">
+            <div class="fw-bold" style="color:#2e5b2a; margin-bottom:-2px; font-size: 16px;">Our Privacy ChatRoom</div>
+            <div style="font-size:12px; color:#5f8d27;"><span style="color:#78b031;">●</span> Online & Always Loving You
+            </div>
+          </div>
+          <button class="btn btn-sm btn-outline-secondary border-0" onclick="resetIdentity()" style="font-size: 10px;"
+            title="Ganti User Kamu">Ganti User</button>
         </div>
 
-        <!-- Pesan terakhir yang tersimpan -->
-        <div id="savedLetter" class="mt-5 p-4 bg-white rounded-4 shadow-sm"
-          style="display:none; border-left:6px solid #87c34b;">
-          <small class="text-muted d-block mb-2 fw-medium">Pesan terakhir darimu:</small>
-          <p class="mb-0"
-            style="font-size:18px; line-height:1.7; color: #2e5b2a; font-family: 'Dancing Script', cursive; font-size: 26px;"
-            id="savedText"></p>
-          <small class="text-muted d-block mt-3" id="savedTime"></small>
+        <!-- Chat History -->
+        <div id="chatHistory" class="p-3"
+          style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; background-color: #f7fbf2;">
+          <div class="text-center w-100 mt-2 mb-2"><span
+              class="badge bg-success bg-opacity-25 text-success rounded-pill fw-medium" style="font-size:11px;">Ruang
+              obrolan terenkripsi oleh cinta 🔒🤍</span></div>
         </div>
 
-        <div id="saveConfirm" class="text-center mt-4 text-success fw-bold fs-5"
-          style="display:none; animation: fadeInSlide 0.5s ease;">
-          Pesan berhasil disimpan di hatinya! 🎉
+        <!-- Chat Input -->
+        <div class="p-3 shadow-sm d-flex gap-2"
+          style="background: rgba(255,255,255,0.8); z-index:2; border-top: 1px solid rgba(180,220,135,0.3); position: relative;">
+          <input type="text" id="chatInput" class="form-control rounded-pill border-success border-opacity-50 px-4"
+            placeholder="Ketik pesan romantis..."
+            style="background:white; font-size:15px; box-shadow:inset 0 2px 4px rgba(0,0,0,0.02);" autocomplete="off">
+          <button id="sendChatBtn" class="btn btn-success rounded-circle shadow-sm"
+            style="width:42px; height:42px; display:flex; align-items:center; justify-content:center; padding-left: 12px;"><span
+              style="transform:translateY(-1px) translateX(-2px)">🚀</span></button>
         </div>
+
+        <!-- Identitas Chooser Overlay (Sekarang diletakkan di paling bawah DOM agar berada di atas) -->
+        <div id="identityChooser"
+          style="position:absolute; inset:0; background:rgba(254,255,233,0.98); z-index: 9999; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; pointer-events: auto;">
+          <h4 class="dancing fw-bold" style="color:var(--accent-contrast); font-size: 40px; margin-bottom: 8px;">Halo
+            sayang...</h4>
+          <p class="muted-small mb-4" style="font-size:16px;">Tolong konfirmasi pesonamu agar chatnya tidak tertukar ya
+            💚</p>
+          <div class="d-flex gap-3 justify-content-center">
+            <button class="btn btn-success rounded-pill px-4 py-2 fw-bold shadow-sm" onclick="setIdentity('Andre')"
+              style="pointer-events: auto; position: relative;">Aku Andre 👦</button>
+            <button class="btn btn-outline-success border-2 bg-white rounded-pill px-4 py-2 fw-bold shadow-sm"
+              onclick="setIdentity('Caca')" style="pointer-events: auto; position: relative;">Aku Caca 👧</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -2387,7 +2505,8 @@
 
           <div class="text-center">
             <button id="closeApologyBtn" class="btn btn-success px-4 py-2 rounded-pill fw-bold"
-              style="font-size:17px; box-shadow: 0 8px 20px rgba(135,195,75,0.4);">Iya sayang, ayo kita perbaiki bareng
+              style="font-size:17px; box-shadow: 0 8px 20px rgba(135,195,75,0.4);" data-bs-dismiss="modal">Iya sayang,
+              ayo kita perbaiki bareng
               bareng 💚</button>
           </div>
         </div>
@@ -2423,6 +2542,18 @@
           <p class="muted-small mb-4" style="font-size:15px;">Update terbaru hari ini buat kamu, sayang!</p>
 
           <ul class="list-unstyled" style="color:#3a4f35; line-height:1.7;">
+            <li class="mb-3">
+              <strong style="color:#5f8d27;">💬 Live Chat:</strong><br>
+              Sekarang kita bisa seru-seruan membalas pesan romantis secara langsung (Real-Time) lho!
+            </li>
+            <li class="mb-3">
+              <strong style="color:#5f8d27;">⏳ Kapsul Waktu:</strong><br>
+              Aku memindahkan surat lama kita dan sebuah kejutan Promise Ring ke tempat penyimpanannya sendiri agar abadi.
+            </li>
+            <li class="mb-3">
+              <strong style="color:#5f8d27;">🎶 Musik Otomatis:</strong><br>
+              Vibes websitenya bakal lebih enak lagi karena lagu kesukaan kita otomatis mengalun pas layarnya disentuh.
+            </li>
             <li class="mb-3">
               <strong style="color:#5f8d27;">🧩 Puzzle Kenangan:</strong><br>
               Udah bisa nyusun foto kebersamaan kita pake fitur swap yang gampang banget dimainin.
@@ -2498,13 +2629,7 @@
         overlay.style.filter = 'blur(10px)';
 
         setTimeout(() => {
-          const apologyModal = new bootstrap.Modal(document.getElementById('apologyModal'), { backdrop: 'static', keyboard: false });
-          apologyModal.show();
-
-          document.getElementById('closeApologyBtn').addEventListener('click', () => {
-            apologyModal.hide();
-            setTimeout(celebrate, 400); // Trigger celebration after modal closes
-          }, { once: true });
+          celebrate();
         }, 600); // slight delay after login overlay fades out
 
       } else {
@@ -2763,55 +2888,10 @@
       setTimeout(() => btn.style.transform = 'scale(1)', 200);
     });
 
-    // ====== FITUR LOVE LETTER BISA DI-UPDATE BERKALI-KALI ======
-    const loveLetter = document.getElementById('loveLetter');
-    const saveLetter = document.getElementById('saveLetter');
-    const savedLetter = document.getElementById('savedLetter');
-    const savedText = document.getElementById('savedText');
-    const savedTime = document.getElementById('savedTime');
-    const saveConfirm = document.getElementById('saveConfirm');
-
-    function loadSavedLetter() {
-      const text = localStorage.getItem('cacaLetter');
-      const time = localStorage.getItem('cacaLetterTime');
-
-      if (text) {
-        loveLetter.value = text;
-        savedText.textContent = text;
-        savedTime.textContent = `Pesan terukir pada: ${time ? new Date(time).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' }) : 'beberapa waktu lalu'}`;
-        savedLetter.style.display = 'block';
-      }
-    }
-
-    saveLetter.addEventListener('click', () => {
-      const pesan = loveLetter.value.trim();
-
-      if (!pesan) {
-        loveLetter.focus();
-        loveLetter.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-8px)' }, { transform: 'translateX(8px)' }, { transform: 'translateX(0)' }], 300);
-        return;
-      }
-
-      const now = new Date().toISOString();
-      localStorage.setItem('cacaLetter', pesan);
-      localStorage.setItem('cacaLetterTime', now);
-
-      savedText.textContent = pesan;
-      savedTime.textContent = `Pesan terukir pada: ${new Date(now).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' })}`;
-      savedLetter.style.display = 'block';
-
-      saveConfirm.style.display = 'block';
-      saveLetter.animate([{ transform: 'scale(1)' }, { transform: 'scale(0.95)' }, { transform: 'scale(1.05)' }, { transform: 'scale(1)' }], 400);
-      littleHeartsBurst();
-
-      setTimeout(() => saveConfirm.style.display = 'none', 6000);
-    });
-
     // Init
     document.addEventListener('DOMContentLoaded', () => {
       calculateDays();
       updateNextEvent();
-      loadSavedLetter();
 
       // Auto-init vanilla-tilt is fine since we use data-tilt
     });
@@ -3041,6 +3121,144 @@
     document.addEventListener('DOMContentLoaded', () => {
       initPuzzle();
       initScratch();
+    });
+
+  </script>
+
+  <!-- FIREBASE SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
+    // 1. Inisialisasi Firebase berdasarkan kredensial milik Andre
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFv6KufNIDFwVubehDdmMboNWrSMN5_bA",
+      authDomain: "chatkudankau.firebaseapp.com",
+      databaseURL: "https://chatkudankau-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "chatkudankau",
+      storageBucket: "chatkudankau.firebasestorage.app",
+      messagingSenderId: "529054742878",
+      appId: "1:529054742878:web:081f7303e4ca90289537cf"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // 2. Logika Identitas (Andre / Caca)
+    let myIdentity = localStorage.getItem('chatIdentity');
+    const chooser = document.getElementById('identityChooser');
+    const chatInput = document.getElementById('chatInput');
+    const sendChatBtn = document.getElementById('sendChatBtn');
+    const chatHistory = document.getElementById('chatHistory');
+
+    if (myIdentity) {
+      chooser.style.display = 'none'; // Sembunyikan layar pilihan jika sudah ada
+    }
+
+    function setIdentity(name) {
+      myIdentity = name;
+      localStorage.setItem('chatIdentity', name);
+      chooser.style.display = 'none';
+
+      // Render ulang seluruh chat history dengan identitas baru
+      chatHistory.innerHTML = '<div class="text-center w-100 mt-2 mb-2"><span class="badge bg-success bg-opacity-25 text-success rounded-pill fw-medium" style="font-size:11px;">Ruang obrolan terenkripsi oleh cinta 🔒🤍</span></div>';
+      loadMessages();
+    }
+
+    // Ekspon ke window agar bisa dipanggil dari HTML onclick
+    window.setIdentity = setIdentity;
+    window.resetIdentity = () => {
+      localStorage.removeItem('chatIdentity');
+      myIdentity = null;
+      chooser.style.display = 'flex';
+      // Kosongkan log lama agar tidak membingungkan
+      chatHistory.innerHTML = '';
+    };
+
+    // Panggil saat halaman diload jika *sudah* punya identitas
+    if (myIdentity) {
+      loadMessages();
+    }
+
+    // 3. Render Pesan dari Firebase Realtime
+    let isInitialLoad = true;
+    function loadMessages() {
+      // Clear event listeners jika ada (untuk reload)
+      db.ref('messages').off();
+
+      db.ref('messages').on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        renderMessage(data);
+        scrollToBottom();
+      });
+      // Deteksi ketika semua data awal sudah ter-render untuk performa animasi scroll
+      db.ref('messages').once('value').then(() => { isInitialLoad = false; });
+    }
+
+    function renderMessage(data) {
+      const isMine = data.sender === myIdentity;
+      const timeStr = new Date(data.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+      const div = document.createElement('div');
+      div.className = `chat-bubble ${isMine ? 'msg-mine' : 'msg-theirs'}`;
+
+      // Tampilkan nama hanya untuk pesan mereka
+      const senderHtml = isMine ? '' : `<span class="msg-sender">${data.sender}</span>`;
+
+      // Escape text (prevent XSS basic)
+      const textNode = document.createTextNode(data.text);
+      const textContainer = document.createElement('div');
+      textContainer.appendChild(textNode);
+
+      div.innerHTML = `
+        ${senderHtml}
+        ${textContainer.innerHTML}
+        <div class="msg-meta">${timeStr}</div>
+      `;
+      chatHistory.appendChild(div);
+    }
+
+    function scrollToBottom() {
+      // Tunggu DOM update tipis tipis -> scroll!
+      setTimeout(() => {
+        chatHistory.scrollTo({
+          top: chatHistory.scrollHeight,
+          behavior: isInitialLoad ? 'auto' : 'smooth'
+        });
+      }, 50);
+    }
+
+    // Fungsi loadMessages dipanggil secara dinamis
+
+    // 4. Kirim Pesan
+    function sendMessage() {
+      if (!myIdentity) {
+        alert("Pilih identitasmu dulu ya di atas!");
+        return;
+      }
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      chatInput.disabled = true; // disable bentar pas kirim 
+
+      // Push ke Firebase
+      db.ref('messages').push({
+        sender: myIdentity,
+        text: text,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      }).then(() => {
+        chatInput.value = '';
+        chatInput.disabled = false;
+        chatInput.focus();
+      }).catch(err => {
+        console.error(err);
+        alert("Ups, pesan gagal dikirim.");
+        chatInput.disabled = false;
+      });
+    }
+
+    sendChatBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
     });
 
   </script>
