@@ -1447,14 +1447,22 @@
                 data-src="video/hanya kamu.mp4">✨ Hanya Kamu</button>
               <button class="btn btn-outline-success bg-white rounded-pill px-3 py-2 fw-medium shadow-sm video-btn"
                 data-src="video/untungnya.mp4">🥰 Untungnya</button>
-              <button class="btn btn-outline-success bg-white rounded-pill px-3 py-2 fw-medium shadow-sm video-btn"
-                data-src="video/sukhakala.mp4">📸 Ptb Bukber</button>
             </div>
 
             <script>
               document.addEventListener('DOMContentLoaded', () => {
                 const videoPlayer = document.getElementById('ourVideo');
                 const videoBtns = document.querySelectorAll('.video-btn');
+
+                // Otomatis menjeda musik latar (Hindia) jika video diputar
+                videoPlayer.addEventListener('play', () => {
+                  if (typeof window.pause === 'function') {
+                    window.pause();
+                  } else {
+                    const bgMusic = document.getElementById('player');
+                    if (bgMusic) bgMusic.pause();
+                  }
+                });
 
                 videoBtns.forEach(btn => {
                   btn.addEventListener('click', () => {
