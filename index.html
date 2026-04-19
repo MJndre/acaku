@@ -1070,6 +1070,68 @@
       font-size: 28px;
       animation: fall linear forwards;
     }
+
+    /* SCRATCH CARD STYLES */
+    .scratch-wrapper {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 3px solid #b4dc87;
+      background: #feffe9;
+    }
+
+    .prize-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #e6f6d6, #cdeeb5);
+      z-index: 1;
+      padding: 20px;
+      user-select: none;
+    }
+
+    #scratchCanvas {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    /* PUZZLE STYLES */
+    .puzzle-wrapper {
+      margin: 0 auto;
+      width: 300px;
+      height: 300px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 2px;
+      background: #78b031;
+      border: 4px solid #78b031;
+      border-radius: 8px;
+    }
+
+    .puzzle-piece {
+      position: relative;
+      background-image: url('foto/hal6.png');
+      background-size: 300px 300px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .puzzle-piece.selected {
+      transform: scale(0.9);
+      box-shadow: inset 0 0 0 3px #ffbe38;
+      z-index: 5;
+    }
   </style>
 </head>
 
@@ -1119,15 +1181,35 @@
       <div class="collapse navbar-collapse" id="navMain">
         <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
           <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
-          <li class="nav-item"><a class="nav-link" href="#kenangan">Kenangan</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#pesan" style="color:#5f8d27 !important;">Pesan</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false" style="color:#2e5b2a;">
+              Jelajahi Fitur 🍃
+            </a>
+            <ul class="dropdown-menu border-0 shadow" aria-labelledby="navbarDropdown"
+              style="background: rgba(254, 255, 233, 0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 12px; min-width: 220px;">
+              <li><a class="dropdown-item rounded-3 py-2" href="#kenangan">Kenangan</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="#pesan" style="color:#5f8d27;">Pesan</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="#galeri">Galeri</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="#video-kenangan">Video Kita</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="#kejutan" style="color:#d49a00;">Puzzle Kenangan
+                  🧩</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="#kejutan" style="color:#d49a00;">Tiket Gosok
+                  🎟️</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="#wishlist" style="color:#5f8d27;">Wishlist
+                  Kita</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="#musik">Musik</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="#balasan">Balasan Caca</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="#pelukan">Pelukan</a></li>
+            </ul>
           </li>
-          <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#wishlist" style="color:#5f8d27 !important;">Wishlist
-              Kita</a></li>
-          <li class="nav-item"><a class="nav-link" href="#musik">Musik</a></li>
-          <li class="nav-item"><a class="nav-link" href="#balasan">Balasan Caca</a></li>
-          <li class="nav-item"><a class="nav-link" href="#pelukan">Pelukan</a></li>
+
+          <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
+            <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold shadow-sm"
+              style="color:#503600; font-size:14px;" data-bs-toggle="modal" data-bs-target="#whatsNewModal">What's New
+              ✨</button>
+          </li>
         </ul>
       </div>
     </div>
@@ -1243,7 +1325,8 @@
               <img id="avatar-2" src="foto/aca2.png" alt="Foto Dia" class="profile-avatar" />
               <div style="flex:1;">
                 <h5 class="profile-name" id="name-2">Tasya Nurmaliya</h5>
-                <p class="profile-desc" id="desc-2">Orang yang suka Matcha tapi kenapa jadi suka sama Andre MJ — Matcha 🩷
+                <p class="profile-desc" id="desc-2">Orang yang suka Matcha tapi kenapa jadi suka sama Andre MJ — Matcha
+                  🩷
                   •Senyum menenangkan •Si Ngambek</p>
                 <div class="profile-meta" id="meta-2">Manusia berharga untuk Andre MJ 💖</div>
               </div>
@@ -1312,6 +1395,12 @@
               <div class="carousel-item">
                 <img src="foto/kita4.png" class="d-block w-100" style="height:450px; object-fit:cover;">
               </div>
+              <div class="carousel-item">
+                <img src="foto/kita5.png" class="d-block w-100" style="height:450px; object-fit:cover;">
+              </div>
+              <div class="carousel-item">
+                <img src="foto/kita6.png" class="d-block w-100" style="height:450px; object-fit:cover;">
+              </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#memoriesCarousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon bg-dark rounded-circle p-2 bg-opacity-25"
@@ -1321,6 +1410,73 @@
               <span class="carousel-control-next-icon bg-dark rounded-circle p-2 bg-opacity-25"
                 aria-hidden="true"></span>
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== VIDEO SECTION ====== -->
+  <section id="video-kenangan" class="py-5">
+    <div class="container">
+      <h3 class="mb-4 text-center dancing" style="font-size:48px; color:var(--accent-contrast);">Momen Bergerak Kita 🎥
+      </h3>
+      <div class="row justify-content-center">
+        <div class="col-lg-8" data-tilt data-tilt-max="2" data-tilt-glare data-tilt-max-glare="0.05">
+          <div class="glass-card p-3 p-md-4 text-center" style="border-radius: 24px;">
+            <p class="muted-small mb-4" style="font-size: 16px;">Sebuah cerita tanpa kata-kata, untuk kita kenang
+              bersama.</p>
+
+            <div class="rounded-4 overflow-hidden shadow-sm mx-auto"
+              style="background:#e6f6d6; border: 4px solid white; max-width: 340px; aspect-ratio: 9/16; position: relative;">
+              <!-- GANTI NAMA FILE DISINI: pastikan path src="... " sesuai dengan letak videomu -->
+              <video id="ourVideo" controls preload="metadata"
+                style="object-fit: cover; width: 100%; height: 100%; position: absolute; inset: 0;">
+                <source src="video/hanya kamu tasyaku.mp4" type="video/mp4">
+                Maaf, browsermu tidak mendukung pemutaran video.
+              </video>
+            </div>
+
+            <!-- Video Playlist Buttons -->
+            <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center" id="videoPlaylist">
+              <button class="btn btn-outline-success bg-white rounded-pill px-3 py-2 fw-medium shadow-sm video-btn"
+                data-src="video/hanya kamu tasyaku.mp4">🩷 Cuma Kamu </button>
+              <button class="btn btn-outline-success bg-white rounded-pill px-3 py-2 fw-medium shadow-sm video-btn"
+                data-src="video/hanya kamu.mp4">✨ Hanya Kamu</button>
+              <button class="btn btn-outline-success bg-white rounded-pill px-3 py-2 fw-medium shadow-sm video-btn"
+                data-src="video/untungnya.mp4">🥰 Untungnya</button>
+              <button class="btn btn-outline-success bg-white rounded-pill px-3 py-2 fw-medium shadow-sm video-btn"
+                data-src="video/sukhakala.mp4">📸 Ptb Bukber</button>
+            </div>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', () => {
+                const videoPlayer = document.getElementById('ourVideo');
+                const videoBtns = document.querySelectorAll('.video-btn');
+
+                videoBtns.forEach(btn => {
+                  btn.addEventListener('click', () => {
+                    // Reset styling semua tombol
+                    videoBtns.forEach(b => {
+                      b.classList.remove('btn-success', 'fw-bold');
+                      b.classList.add('btn-outline-success', 'fw-medium');
+                    });
+                    // Set tombol yang aktif
+                    btn.classList.remove('btn-outline-success', 'fw-medium');
+                    btn.classList.add('btn-success', 'fw-bold');
+
+                    // Ganti resource videonya
+                    const newSrc = btn.getAttribute('data-src');
+                    videoPlayer.src = newSrc;
+                    videoPlayer.play();
+                  });
+                });
+              });
+            </script>
+
+            <div class="mt-4 text-muted" style="font-size: 14px; font-weight: 500;">
+              ✨ In Everything u are, im always loving you my lovee ✨
+            </div>
           </div>
         </div>
       </div>
@@ -1466,7 +1622,68 @@
             <div class="polaroid-text">Sayangku forever 🤍</div>
           </div>
         </div>
+        <div class="col-6 col-md-3" data-tilt data-tilt-scale="1.08" data-tilt-max="15">
+          <div class="polaroid-wrap" style="transform: rotate(-4deg);">
+            <img class="img-thumb" src="foto/hal5.png" alt="Kenangan 5">
+            <div class="polaroid-text">Nasgor kita 🍴</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-tilt data-tilt-scale="1.08" data-tilt-max="15">
+          <div class="polaroid-wrap" style="transform: rotate(-4deg);">
+            <img class="img-thumb" src="foto/hal6.png" alt="Kenangan 6">
+            <div class="polaroid-text">Bukber kita 😁</div>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ====== KEJUTAN SECTION (PUZZLE & SCRATCH) ====== -->
+  <section id="kejutan" class="py-5">
+    <div class="container">
+      <h3 class="mb-5 text-center dancing" style="font-size:48px; color:var(--accent-contrast);">Kejutan Spesial Buatmu
+        🎁</h3>
+
+      <div class="row justify-content-center g-5">
+        <!-- Puzzle Foto -->
+        <div class="col-md-6" data-tilt data-tilt-max="2" data-tilt-glare data-tilt-max-glare="0.05">
+          <div class="glass-card p-4 p-md-5 text-center h-100">
+            <h4 class="dancing mb-3" style="color:#5f8d27; font-size: 32px;">Puzzle Kenangan 🧩</h4>
+            <p class="muted-small mb-4">Susun kembali kenangan kita! Klik 2 kepingan untuk menukar posisinya hingga
+              gambarnya sempurna.</p>
+
+            <div id="puzzleWrapper" class="puzzle-wrapper mb-4">
+              <!-- Pieces generated by JS -->
+            </div>
+
+            <button id="resetPuzzleBtn" class="btn btn-outline-success btn-sm rounded-pill">Acak Lagi</button>
+            <div id="puzzleMsg" class="mt-3 fs-5 fw-bold text-success" style="min-height:30px;"></div>
+          </div>
+        </div>
+
+        <!-- Tiket Gosok -->
+        <div class="col-md-6" data-tilt data-tilt-max="2" data-tilt-glare data-tilt-max-glare="0.05">
+          <div class="glass-card p-4 p-md-5 text-center h-100">
+            <h4 class="dancing mb-3" style="color:#5f8d27; font-size: 32px;">Tiket Gosok Rahasia 🎟️</h4>
+            <p class="muted-small mb-4">Gosok area abu-abu di bawah ini menggunakan jarimu / kursor untuk melihat hadiah
+              dari Andre!</p>
+
+            <div class="scratch-wrapper">
+              <div class="prize-container">
+                <span style="font-size: 40px; margin-bottom: 8px;">💆‍♀️🍵</span>
+                <span style="font-size: 18px; font-weight: 700; color:#2e5b2a;">Kupon Jajan Matcha &<br>Mau Kemana aja
+                  bebas sama aku!</span>
+              </div>
+              <canvas id="scratchCanvas"></canvas>
+            </div>
+
+            <button id="resetScratchBtn" class="btn btn-outline-warning btn-sm rounded-pill mt-4">Tutup Lagi</button>
+            <div id="scratchMsg" class="mt-3 fs-6 fw-medium" style="color:#5f8d27; min-height:24px;">Gosok terus
+              cantik... ✨</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1494,11 +1711,19 @@
                 <div class="wish-icon">✓</div>
                 <div class="wish-text">Nonton Bioskop</div>
               </div>
+              <div class="wishlist-item wish-done">
+                <div class="wish-icon">✓</div>
+                <div class="wish-text">Promise Ring 💍</div>
+              </div>
 
               <!-- PENDING items -->
               <div class="wishlist-item wish-pending">
                 <div class="wish-icon">⏳</div>
                 <div class="wish-text">Ke Bandung Part 2</div>
+              </div>
+              <div class="wishlist-item wish-pending">
+                <div class="wish-icon">⏳</div>
+                <div class="wish-text">Ke Yogyakarta berdua</div>
               </div>
               <div class="wishlist-item wish-pending">
                 <div class="wish-icon">⏳</div>
@@ -1797,7 +2022,8 @@
       const playlist = [
         { title: "everything u are", artist: "Hindia", src: "musik/everything u are - Hindia.mp3", cover: "foto/everyth.jpg" },
         { title: "1000x", artist: "Ghea Indrawari", src: "musik/1000x - Ghea Indrawari.mp3", cover: "foto/1000xghea.jpg" },
-        { title: "Monolog", artist: "Pamungkas", src: "musik/Monolog - Pamungkas.mp3", cover: "foto/monologg.jpg" }
+        { title: "Monolog", artist: "Pamungkas", src: "musik/Monolog - Pamungkas.mp3", cover: "foto/monologg.jpg" },
+        { title: "Bucketlist", artist: "Ghea Indrawari", src: "musik/Bucketlist - Ghea Indrawari.mp3", cover: "foto/bucketlistghea.jpg" }
       ];
 
       const player = document.getElementById('player');
@@ -2178,6 +2404,41 @@
           <div class="p-2 bg-white rounded-4 shadow-lg polaroid-wrap" style="transform:none; cursor:default;">
             <img id="modalImage" src="" class="img-fluid rounded" alt="Kenangan Kita" style="width:100%;">
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal What's New -->
+  <div class="modal fade" id="whatsNewModal" tabindex="-1" aria-hidden="true" style="backdrop-filter: blur(5px);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0"
+        style="background: rgba(254, 255, 233, 0.95); border-radius: 24px; box-shadow: 0 15px 35px rgba(46, 91, 42, 0.2);">
+        <div class="modal-header border-0 pb-0">
+          <h4 class="modal-title dancing fw-bold" style="color:var(--accent-contrast); font-size:32px;">What's New ✨
+          </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 pt-3 text-start">
+          <p class="muted-small mb-4" style="font-size:15px;">Update terbaru hari ini buat kamu, sayang!</p>
+
+          <ul class="list-unstyled" style="color:#3a4f35; line-height:1.7;">
+            <li class="mb-3">
+              <strong style="color:#5f8d27;">🧩 Puzzle Kenangan:</strong><br>
+              Udah bisa nyusun foto kebersamaan kita pake fitur swap yang gampang banget dimainin.
+            </li>
+            <li class="mb-3">
+              <strong style="color:#5f8d27;">🎟️ Tiket Gosok Rahasia:</strong><br>
+              Ada hadiah yang kusembunyikan, tinggal gosok aja pake jari kamu untuk ngebuka kuponnya!
+            </li>
+            <li class="mb-0">
+              <strong style="color:#5f8d27;">🎥 Video Playlist:</strong><br>
+              Sekarang kamu bisa pilih dan putar momen video vertikal favorit kita langsung di web.
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer border-0 pt-0 pb-4 justify-content-center">
+          <button type="button" class="btn btn-success rounded-pill px-4" data-bs-dismiss="modal">Mantap! 💚</button>
         </div>
       </div>
     </div>
@@ -2588,6 +2849,198 @@
         }
         if (proposalOpen) closeProposal();
       }
+    });
+
+    // ====== PUZZLE LOGIC ======
+    const puzzleWrapper = document.getElementById('puzzleWrapper');
+    const puzzleMsg = document.getElementById('puzzleMsg');
+    const resetPuzzleBtn = document.getElementById('resetPuzzleBtn');
+    let puzzlePieces = [];
+    let selectedPiece = null;
+
+    function initPuzzle() {
+      puzzleWrapper.innerHTML = '';
+      puzzlePieces = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+      // Shuffle Array
+      for (let i = puzzlePieces.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [puzzlePieces[i], puzzlePieces[j]] = [puzzlePieces[j], puzzlePieces[i]];
+      }
+
+      puzzlePieces.forEach((val, index) => {
+        const div = document.createElement('div');
+        div.className = 'puzzle-piece';
+        div.dataset.index = index;
+        div.dataset.val = val;
+
+        // Calculate background position
+        const row = Math.floor(val / 3);
+        const col = val % 3;
+        div.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+
+        div.addEventListener('click', handlePuzzleClick);
+        puzzleWrapper.appendChild(div);
+      });
+      puzzleMsg.textContent = '';
+    }
+
+    function handlePuzzleClick(e) {
+      if (puzzleMsg.textContent !== '') return; // already won
+      const currentPiece = e.target;
+
+      if (!selectedPiece) {
+        selectedPiece = currentPiece;
+        selectedPiece.classList.add('selected');
+      } else {
+        if (selectedPiece === currentPiece) {
+          selectedPiece.classList.remove('selected');
+          selectedPiece = null;
+          return;
+        }
+
+        // Swap dataset.val
+        const tempVal = selectedPiece.dataset.val;
+        selectedPiece.dataset.val = currentPiece.dataset.val;
+        currentPiece.dataset.val = tempVal;
+
+        // Swap background styles
+        const tempBg = selectedPiece.style.backgroundPosition;
+        selectedPiece.style.backgroundPosition = currentPiece.style.backgroundPosition;
+        currentPiece.style.backgroundPosition = tempBg;
+
+        selectedPiece.classList.remove('selected');
+        selectedPiece = null;
+
+        checkPuzzleWin();
+      }
+    }
+
+    function checkPuzzleWin() {
+      const pieces = document.querySelectorAll('.puzzle-piece');
+      let isWin = true;
+      pieces.forEach((p, idx) => {
+        if (parseInt(p.dataset.val) !== idx) {
+          isWin = false;
+        }
+      });
+
+      if (isWin) {
+        puzzleMsg.textContent = 'Wahh pinter banget sayangku! ✨🎉';
+        littleHeartsBurst();
+      }
+    }
+
+    resetPuzzleBtn.addEventListener('click', initPuzzle);
+
+    // ====== SCRATCH CARD LOGIC ======
+    const canvas = document.getElementById('scratchCanvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const scratchMsg = document.getElementById('scratchMsg');
+    const resetScratchBtn = document.getElementById('resetScratchBtn');
+    let isDrawing = false;
+    let scratchWon = false;
+
+    function initScratch() {
+      canvas.width = 300;
+      canvas.height = 200;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#b5c5b5'; // gray-ish matcha
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Add text overlay on the scratch layer
+      ctx.fillStyle = '#f0f0f0';
+      ctx.font = 'bold 22px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Gosok Di Sini ✨', canvas.width / 2, canvas.height / 2);
+
+      ctx.lineWidth = 35;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      scratchWon = false;
+      scratchMsg.textContent = 'Gosok terus cantik... ✨';
+    }
+
+    function enableScratch() {
+      ctx.globalCompositeOperation = 'destination-out';
+    }
+
+    function getMousePos(evt) {
+      const rect = canvas.getBoundingClientRect();
+      let clientX = evt.clientX;
+      let clientY = evt.clientY;
+      if (evt.touches && evt.touches.length > 0) {
+        clientX = evt.touches[0].clientX;
+        clientY = evt.touches[0].clientY;
+      }
+      return {
+        // Handle responsive scaling correctly
+        x: (clientX - rect.left) * (canvas.width / rect.width),
+        y: (clientY - rect.top) * (canvas.height / rect.height)
+      };
+    }
+
+    function scratchStart(e) {
+      if (scratchWon) return;
+      isDrawing = true;
+      enableScratch();
+      const pos = getMousePos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function scratchMove(e) {
+      if (!isDrawing || scratchWon) return;
+      if (e.cancelable) e.preventDefault();
+      const pos = getMousePos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      checkScratchWin();
+    }
+
+    function scratchEnd() {
+      isDrawing = false;
+      ctx.beginPath();
+    }
+
+    // Checking cleared percentage
+    function checkScratchWin() {
+      if (Math.random() > 0.1) return; // limit checks for performance
+
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let clearCount = 0;
+      const totalPixels = imgData.length / 4;
+
+      for (let i = 0; i < imgData.length; i += 16) { // sample pixels
+        if (imgData[i + 3] === 0) clearCount++;
+      }
+
+      const percent = (clearCount / (totalPixels / 4)) * 100;
+      if (percent > 60) {
+        scratchWon = true;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        scratchMsg.innerHTML = 'Selamat! Tunjukin ini ke aku ya sayang 😘';
+        littleHeartsBurst();
+      }
+    }
+
+    canvas.addEventListener('mousedown', scratchStart);
+    canvas.addEventListener('mousemove', scratchMove);
+    window.addEventListener('mouseup', scratchEnd);
+
+    // Touch support
+    canvas.addEventListener('touchstart', scratchStart, { passive: false });
+    canvas.addEventListener('touchmove', scratchMove, { passive: false });
+    window.addEventListener('touchend', scratchEnd);
+
+    resetScratchBtn.addEventListener('click', initScratch);
+
+    // Initialize both
+    document.addEventListener('DOMContentLoaded', () => {
+      initPuzzle();
+      initScratch();
     });
 
   </script>
